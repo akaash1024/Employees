@@ -25,7 +25,7 @@ export const Header = () => {
                 <>
                   <li className="nav-item">
                     <NavLink className={"nav-link"} to="create/personal-details">
-                      Create
+                      {/* Create */}
                     </NavLink>
                   </li>
                   <li className="nav-item">
