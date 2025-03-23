@@ -9,7 +9,7 @@ export const Header = () => {
         <div className="container">
           <div className="logo-brand">
             <NavLink to="/">
-              <h1>Employee</h1>
+              <h1>Employéé</h1>
             </NavLink>
           </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addEmployee, fetchEmployees } from "../src/store";
+import { addEmployee, deleteEmployee, fetchEmployees } from "../src/store";
 
 export const EmployeeDashboard = () => {
   const dispatch = useDispatch();
