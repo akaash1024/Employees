@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt")
 const register = async (req, res, next) => {
     const { name, email, password } = req.body
     console.log(name, email, password);
-    
+
     try {
         const isUserExit = await User.findOne({ email })
         if (isUserExit) {
@@ -64,4 +64,18 @@ const login = async (req, res, next) => {
     }
 }
 
-module.exports = { register, login }
+
+const user = async (req, res, next) => {
+    try {
+        const userData = req.user;
+        return res.status(200).json({
+            success: true,
+            message: "User details fetched successfully.",
+            data: userData,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { register, login, user }
