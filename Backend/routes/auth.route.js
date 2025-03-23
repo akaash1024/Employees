@@ -11,7 +11,7 @@ authRouter.route("/register").post(authController.register)
 
 authRouter.route("/login").post(authController.login)
 
-authRoute.route("/user").get(isAuthenicated, authController.user);
+authRouter.route("/user").get(isAuthenicated, authController.user);
 
 
 module.exports = authRouter
