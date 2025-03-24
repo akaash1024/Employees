@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addEmployee, deleteEmployee, fetchEmployees } from "../src/store";
+import { useAuth } from "../AuthContextStore";
+import { useNavigate } from "react-router";
+import { toast } from "react-toastify";
 
 export const EmployeeDashboard = () => {
   const dispatch = useDispatch();
   const { employees, isLoading, error } = useSelector(
     (state) => state.employees
   );
+
+  const navigate = useNavigate();
+
+  const { isLoggedIn, user, token } = useAuth();
 
   const [newEmployee, setNewEmployee] = useState({
     name: "",
@@ -25,8 +32,18 @@ export const EmployeeDashboard = () => {
   const [employeeToUpdate, setEmployeeToUpdate] = useState(null);
 
   useEffect(() => {
-    dispatch(fetchEmployees());
-  }, [dispatch]);
+    if (!isLoggedIn) {
+        toast.error("Please log in first!");
+        navigate("/login", { replace: true });
+    } else {
+        dispatch(fetchEmployees(token));
+    }
+}, [isLoggedIn, user, navigate, dispatch, token]);
+
+
+  // useEffect(() => {
+  //   dispatch(fetchEmployees());
+  // }, [ dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;

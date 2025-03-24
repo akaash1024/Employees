@@ -1,25 +1,30 @@
 import { configureStore, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
 // API base URL
 const API_URL = "http://localhost:3000/api/employee";
 
-const api = axios.create({
-    baseURL: API_URL,
-    headers: { 'Content-Type': 'application/json' },
-});
+
 
 // ASYNC ACTIONS
 
 // Fetch all employees
-export const fetchEmployees = createAsyncThunk("employees/fetch", async () => {
+export const fetchEmployees = createAsyncThunk("employees/fetch", async (token) => {
     try {
-        const response = await api.get("/");
+        const response = await axios.get(API_URL, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log("Am I getting the data?", response);
+        
         return response.data.employees;
     } catch (error) {
         throw error.response?.data?.message || "Failed to fetch employees";
     }
 });
+
 
 // Add a new employee
 export const addEmployee = createAsyncThunk("employees/add", async (employee) => {

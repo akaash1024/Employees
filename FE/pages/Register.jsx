@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import { useAuth } from "../AuthContextStore";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+
 
 export const Register = () => {
   const [formData, setFormData] = useState({
@@ -22,14 +23,12 @@ export const Register = () => {
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
+      
       const { data } = await api.post("/api/auth/register", formData);
 
-      console.log("loggine data", data);
+      
 
       if (data.newUserDetails?.token) {
-        console.log("is am i reached here?");
-
         storeTokenInLS(data.newUserDetails.token);
         toast.success(data.message);
         navigate("/");

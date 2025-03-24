@@ -24,6 +24,7 @@ export const Login = () => {
       const { data } = await api.post("/api/auth/login", formData);
 
       if (data.success && data.userDetails.token) {
+        
         storeTokenInLS(data.userDetails.token);
       }
 
