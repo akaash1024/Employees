@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addEmployee, deleteEmployee, fetchEmployees } from "../src/store";
+import { addEmployee, deleteEmployee, fetchEmployees, updateEmployee } from "../src/store";
 import { useAuth } from "../AuthContextStore";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
@@ -64,31 +64,33 @@ export const EmployeeDashboard = () => {
     e.preventDefault();
 
     if (isUpdateMode && employeeToUpdate) {
-      dispatch(
-        updateEmployee({
-          id: employeeToUpdate._id,
-          updatedData: newEmployee,
-        })
-      );
-      setIsUpdateMode(false);
-      setEmployeeToUpdate(null);
+        dispatch(
+            updateEmployee({
+                id: employeeToUpdate._id,
+                updatedData: newEmployee,
+                token,  
+            })
+        );
+        setIsUpdateMode(false);
+        setEmployeeToUpdate(null);
     } else {
-      dispatch(addEmployee(newEmployee));
+        dispatch(addEmployee(newEmployee));
     }
 
     setNewEmployee({
-      name: "",
-      email: "",
-      emp_id: "",
-      department: "",
-      position: "",
-      salary: "",
-      phone: "",
-      address: "",
-      isActive: true,
-      avatar: null,
+        name: "",
+        email: "",
+        emp_id: "",
+        department: "",
+        position: "",
+        salary: "",
+        phone: "",
+        address: "",
+        isActive: true,
+        avatar: null,
     });
-  };
+};
+
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this employee?")) {
@@ -99,11 +101,15 @@ export const EmployeeDashboard = () => {
   const handleUpdate = (id) => {
     const employee = employees.find((emp) => emp._id === id);
     if (employee) {
-      setNewEmployee({ ...employee });
-      setIsUpdateMode(true);
-      setEmployeeToUpdate(employee);
+        setNewEmployee({
+            ...employee,
+            avatar: null, // Keep the avatar null unless updated
+        });
+        setIsUpdateMode(true);
+        setEmployeeToUpdate(employee);
     }
-  };
+};
+
 
   const handleCancelUpdate = () => {
     setNewEmployee({

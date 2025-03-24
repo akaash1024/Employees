@@ -19,7 +19,7 @@ export const fetchEmployees = createAsyncThunk("employees/fetch", async (token) 
             },
         });
         console.log("Am I getting the data?", response);
-        
+
         return response.data.employees;
     } catch (error) {
         throw error.response?.data?.message || "Failed to fetch employees";
@@ -58,7 +58,7 @@ export const getEmployeeById = createAsyncThunk("employees/getById", async (id) 
 // Update an employee
 export const updateEmployee = createAsyncThunk(
     "employees/update",
-    async ({ id, updatedData }) => {
+    async ({ id, updatedData, token }) => {
         try {
             const formData = new FormData();
             Object.entries(updatedData).forEach(([key, value]) => {
@@ -67,15 +67,21 @@ export const updateEmployee = createAsyncThunk(
                 }
             });
 
-            const response = await api.patch(`/update/${id}`, formData, {
-                headers: { "Content-Type": "multipart/form-data" },
+            const response = await axios.patch(`${API_URL}/update/${id}`, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `Bearer ${token}`,
+                },
             });
+            console.log(response);
+            
             return response.data.employee;
         } catch (error) {
             throw error.response?.data?.message || "Failed to update employee";
         }
     }
 );
+
 
 // Delete an employee
 export const deleteEmployee = createAsyncThunk("employees/delete", async (id) => {
